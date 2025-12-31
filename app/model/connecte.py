@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
 connecte_bp = Blueprint(
-    'market_bp',
+    'connect_bp',
     __name__,
     template_folder='templates',
     static_folder='static'
