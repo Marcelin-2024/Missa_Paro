@@ -22,12 +22,10 @@ def fidel():
         date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
         ajoute_fidele(nom,gmail,password,telephone,date)
         return jsonify(success=True, data="donnée envoyée"), 201
-
     return jsonify(
         success=True,
-        data={
-            "mauvais envoie du fichier json"
-        }
+        data="mauvais envoie du fichier json"
+
     )
 
 
@@ -45,9 +43,7 @@ def intent():
 
     return jsonify(
         success=True,
-        data={
-            "mauvais envoie du fichier json"
-        }
+        data="mauvais envoie du fichier json"
     )
 
 

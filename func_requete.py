@@ -48,8 +48,6 @@ def creer_utilisateur(email, password):
 def ajoute_fidele(nom, gmail, password, telephone, date):
     # Ajouter une présence test
     uid = creer_utilisateur(gmail, password)
-
-
     if uid:
         data = {
             "id": uid,
