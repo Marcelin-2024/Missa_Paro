@@ -20,7 +20,6 @@ else:
     print("⚠️ Attention: SUPABASE_URL ou KEY manquante")
 
 # --- Firebase ---
-# --- Firebase ---
 def init_firebase():
     if not firebase_admin._apps:
         service_account_env = os.environ.get("FIREBASE_SERVICE_ACCOUNT")
@@ -54,7 +53,6 @@ def ajoute_fidele(nom, gmail, password, telephone, date):
 
     if uid:
         data = {
-            "id": uid,
             "nom": nom,
             "email": gmail,
             "telephone": telephone,
