@@ -9,17 +9,17 @@ api_bp = Blueprint(
     static_folder='static'
 )
 
-date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
+
 
 @api_bp.route('/fideles', methods=['POST'])
 def fidel():
-    data_json = request.get_json()
-    if not date or 'data' in data_json:
-        data = data_json['data']
+    data = request.get_json()
+    if data:
         nom = data.get("nom", "")
         gmail = data.get("email", "")
         password = data.get("password", "")
         telephone = data.get("telephone", "")
+        date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
         ajoute_fidele(nom,gmail,password,telephone,date)
         return jsonify(success=True, data="donnée envoyée"), 201
 
@@ -34,11 +34,12 @@ def fidel():
 @api_bp.route('/intentions', methods=['POST'])
 def intent():
     data_json = request.get_json()
-    if not date or 'data' in data_json:
+    if not 'data' in data_json:
         data = data_json['data']
         fidele_id = data.get("fidele_id", "")
         messe_id = data.get("messe_id", "")
         type_intention = data.get("type_intention", "")
+        date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
         ajoute_intention(fidele_id,messe_id,type_intention,date)
         return jsonify(success=True, data="donnée envoyée"), 201
 
