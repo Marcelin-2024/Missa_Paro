@@ -20,11 +20,15 @@ else:
     print("⚠️ Attention: SUPABASE_URL ou KEY manquante")
 
 # --- Firebase ---
+# --- Firebase ---
 def init_firebase():
     if not firebase_admin._apps:
         service_account_env = os.environ.get("FIREBASE_SERVICE_ACCOUNT")
         if service_account_env:
+            # Correction pour les sauts de ligne dans la clé privée Vercel
             service_account_info = json.loads(service_account_env)
+            if "private_key" in service_account_info:
+                service_account_info["private_key"] = service_account_info["private_key"].replace("\\n", "\n")
             cred = credentials.Certificate(service_account_info)
         else:
             cred = credentials.Certificate("serviceAccountKey.json")
@@ -33,21 +37,21 @@ def init_firebase():
 
 
 def creer_utilisateur(email, password):
+    # ON INITIALISE ICI AUSSI pour être sûr que 'auth' fonctionne
+    init_firebase()
     try:
-        user = auth.create_user(
-            email=email,
-            password=password,
-        )
-        print(f"✅ Utilisateur créé avec succès : {user.uid}")
+        user = auth.create_user(email=email, password=password)
+        print(f"✅ Utilisateur créé : {user.uid}")
         return user.uid
     except Exception as e:
-        print(f"❌ Erreur lors de la création : {e}")
-        return None
+        print(f"❌ Erreur Auth Firebase : {e}")
+        raise e  # On lève l'erreur pour qu'elle soit vue par l'API
 
 
 def ajoute_fidele(nom, gmail, password, telephone, date):
-    # Ajouter une présence test
+    # 1. Création du compte Auth (initialise Firebase au passage)
     uid = creer_utilisateur(gmail, password)
+
     if uid:
         data = {
             "id": uid,
@@ -56,9 +60,17 @@ def ajoute_fidele(nom, gmail, password, telephone, date):
             "telephone": telephone,
             "created_at": date,
         }
+
+        # 2. Ajout dans Firestore
         ajoute_fidele_compl('fidele', uid, data)
-        response = supabase.table("fidele").insert(data).execute()
-        print(response)
+
+        # 3. Ajout dans Supabase
+        if url and key:
+            try:
+                supabase.table("fidele").insert(data).execute()
+                print("✅ Ajouté à Supabase")
+            except Exception as e:
+                print(f"❌ Erreur Supabase : {e}")
 
 
 def ajoute_intention(fidele_id, messe_id, type_intention, date):
