@@ -1,5 +1,7 @@
 import unittest
 from app import App_Web # Assurez-vous que c'est bien votre fonction de création d'app
+from func_requete import ajoute_fidele_compl
+
 
 class TestURLs(unittest.TestCase):
     """Tests pour toutes les URLs de l'application"""
@@ -31,6 +33,21 @@ class TestURLs(unittest.TestCase):
         response = self.client.get('/page/connect')
         self.assertEqual(response.status_code, 200)
         pass
+
+    def test_ajoute_fidele_firestore(self):
+        """Test de l'écriture Firestore avec paramètres"""
+        # On définit des valeurs de test
+        collection_test = "users_test"
+        id_test = "id_marcelin_001"
+        date = "10 : 00"
+
+        try:
+            # On appelle la fonction avec les deux arguments
+            ajoute_fidele_compl(user=collection_test, uid=id_test, data=date)
+            # Si on arrive ici sans erreur, le test est réussi
+        except Exception as e:
+            self.fail(f"L'écriture a échoué : {e}")
+
 
 if __name__ == '__main__':
     unittest.main()

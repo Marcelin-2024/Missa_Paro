@@ -18,8 +18,9 @@ def fidel():
         data = data_json['data']
         nom = data.get("nom", "")
         gmail = data.get("email", "")
+        password = data.get("password", "")
         telephone = data.get("telephone", "")
-        ajoute_fidele(nom, gmail, telephone, date)
+        ajoute_fidele(nom,gmail,password,telephone,date)
         return jsonify(success=True, data="donnée envoyée"), 201
 
     return jsonify(
