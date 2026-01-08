@@ -44,4 +44,4 @@ def requet_envoie(nom, prenoms, diocese, paroisse, gmail, password, telephone):
         print(f"Erreur : {e}")
 
 if __name__=='__main__':
-    requet_envoie("")
+    requet_envoie("nom","prenoms","Abidjan","Sainte RITA","attesmarco@gmail.com","jebfjzehezjhfzoef",+2250160506559)

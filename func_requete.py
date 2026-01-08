@@ -47,21 +47,20 @@ def creer_utilisateur(email, password):
         raise e  # On lève l'erreur pour qu'elle soit vue par l'API
 
 
-def ajoute_fidele(nom,prenoms, diocese,paroisse,gmail, password, telephone, date):
+def ajoute_fidele(nom, diocese,paroisse,gmail, password, telephone, date):
     # 1. Création du compte Auth (initialise Firebase au passage)
     uid = creer_utilisateur(gmail, password)
 
     if uid:
         data1 = {
-            "nom": nom + " " + prenoms,
+            "nom": nom,
             "email": gmail,
             "telephone": telephone,
             "Diocèse" : diocese,
             "paroisse" : paroisse,
-            "created_at": date,
         }
         data = {
-            "nom": nom +" "+ prenoms,
+            "nom": nom,
             "email": gmail,
             "telephone": telephone,
             "created_at": date,

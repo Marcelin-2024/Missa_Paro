@@ -19,8 +19,10 @@ def fidel():
         gmail = data.get("email", "")
         password = data.get("password", "")
         telephone = data.get("telephone", "")
+        diocese = data.get("diocese", "")
+        paroisse = data.get("paroisse", "")
         date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
-        ajoute_fidele(nom,gmail,password,telephone,date)
+        ajoute_fidele(nom,diocese,paroisse,gmail, password, telephone, date)
         return jsonify(success=True, data="donnée envoyée"), 201
     return jsonify(
         success=True,
