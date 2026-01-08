@@ -17,27 +17,31 @@ def requet_reponse():
         print(f"Erreur : {reponse.status_code}")
 
 
-def requet_envoie():
 
-    # Données à envoyer
+
+def requet_envoie(nom, prenoms, diocese, paroisse, gmail, password, telephone):
+    # Données à envoyer sans le champ date
     data = {
-        "nom": "Dupont",
-        "prenom": "Jean",
-        "email": "jean@test.com",
-        "password": "jhjzeoierejf",
-        "telephone": "0123456789"
+        "nom": nom,
+        "prenom": prenoms,
+        "diocese": diocese,
+        "paroisse": paroisse,
+        "email": gmail,
+        "password": password,
+        "telephone": telephone
     }
 
-    # Envoyer POST
-    response = requests.post(
-        "https://e-messe.vercel.app/api/fideles",  # VOTRE API
-        json=data,  # ou data=data pour form
+    try:
+        response = requests.post(
+            "https://e-messe.vercel.app/api/fideles",
+            json=data
+        )
 
-    )
+        print(f"Status: {response.status_code}")
+        print(f"Réponse: {response.json()}")
 
-    print(f"Status: {response.status_code}")
-    print(f"Réponse: {response.json()}")
-
+    except Exception as e:
+        print(f"Erreur : {e}")
 
 if __name__=='__main__':
-    requet_envoie()
+    requet_envoie("")

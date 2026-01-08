@@ -47,20 +47,28 @@ def creer_utilisateur(email, password):
         raise e  # On lève l'erreur pour qu'elle soit vue par l'API
 
 
-def ajoute_fidele(nom, gmail, password, telephone, date):
+def ajoute_fidele(nom,prenoms, diocese,paroisse,gmail, password, telephone, date):
     # 1. Création du compte Auth (initialise Firebase au passage)
     uid = creer_utilisateur(gmail, password)
 
     if uid:
+        data1 = {
+            "nom": nom + " " + prenoms,
+            "email": gmail,
+            "telephone": telephone,
+            "Diocèse" : diocese,
+            "paroisse" : paroisse,
+            "created_at": date,
+        }
         data = {
-            "nom": nom,
+            "nom": nom +" "+ prenoms,
             "email": gmail,
             "telephone": telephone,
             "created_at": date,
         }
 
         # 2. Ajout dans Firestore
-        ajoute_fidele_compl('fidele', uid, data)
+        ajoute_fidele_compl('fidele', uid, data1)
 
         # 3. Ajout dans Supabase
         if url and key:
