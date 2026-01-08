@@ -16,13 +16,15 @@ def fidel():
     data = request.get_json()
     if data:
         nom = data.get("nom", "")
+        prenoms = data.get("prenoms", "")
         gmail = data.get("email", "")
         password = data.get("password", "")
         telephone = data.get("telephone", "")
         diocese = data.get("diocese", "")
         paroisse = data.get("paroisse", "")
         date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
-        ajoute_fidele(nom,diocese,paroisse,gmail, password, telephone, date)
+        nom_complet = nom+" "+prenoms
+        ajoute_fidele(nom_complet,diocese,paroisse,gmail, password, telephone, date)
         return jsonify(success=True, data="donnée envoyée"), 201
     return jsonify(
         success=True,

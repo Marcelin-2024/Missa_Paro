@@ -23,7 +23,7 @@ def requet_envoie(nom, prenoms, diocese, paroisse, gmail, password, telephone):
     # Données à envoyer sans le champ date
     data = {
         "nom": nom,
-        "prenom": prenoms,
+        "prenoms": prenoms,
         "diocese": diocese,
         "paroisse": paroisse,
         "email": gmail,
