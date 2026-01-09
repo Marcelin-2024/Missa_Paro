@@ -43,5 +43,25 @@ def requet_envoie(nom, prenoms, diocese, paroisse, gmail, password, telephone):
     except Exception as e:
         print(f"Erreur : {e}")
 
+
+def requet_connec( gmail, password):
+    # Données à envoyer sans le champ date
+    data = {
+        "email": gmail,
+        "password": password,
+    }
+
+    try:
+        response = requests.post(
+            "https://e-messe.vercel.app/api/login",
+            json=data
+        )
+
+        print(f"Status: {response.status_code}")
+        print(f"Réponse: {response.json()}")
+
+    except Exception as e:
+        print(f"Erreur : {e}")
+
 if __name__=='__main__':
-    requet_envoie("nom","prenoms","Abidjan","Sainte RITA","attesmarco@gmail.com","jebfjzehezjhfzoef",+2250160506559)
+    requet_envoie("marcoattes@gmail.com","jebfjzehezjhfzoef")

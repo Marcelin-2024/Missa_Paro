@@ -4,9 +4,11 @@ from supabase import create_client
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
 from dotenv import load_dotenv
+import requests
 
 
-
+# Trouve cette clé dans : Console Firebase > Paramètres du projet > Clé API Web
+FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 load_dotenv()
 
 # --- Supabase ---
@@ -76,6 +78,42 @@ def ajoute_fidele(nom, diocese,paroisse,gmail, password, telephone, date):
                 print("✅ Ajouté à Supabase")
             except Exception as e:
                 print(f"❌ Erreur Supabase : {e}")
+
+
+
+def connecter_utilisateur(email, password):
+    """
+    Vérifie l'email et le mot de passe auprès de Firebase.
+    Retourne l'ID utilisateur (uid) et le jeton (idToken) si succès.
+    """
+    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_WEB_API_KEY}"
+
+    payload = {
+        "email": email,
+        "password": password,
+        "returnSecureToken": True
+    }
+
+    try:
+        response = requests.post(url, json=payload)
+        data = response.json()
+
+        if response.status_code == 200:
+            print(f"✅ Connexion réussie : {data['localId']}")
+            return {
+                "status": "success",
+                "uid": data['localId'],
+                "idToken": data['idToken']
+            }
+        else:
+            # Gestion des erreurs (ex: EMAIL_NOT_FOUND, INVALID_PASSWORD)
+            message_erreur = data.get('error', {}).get('message', 'Erreur de connexion')
+            print(f"❌ Échec connexion : {message_erreur}")
+            return {"status": "error", "message": message_erreur}
+
+    except Exception as e:
+        print(f"❌ Erreur réseau lors de la connexion : {e}")
+        return {"status": "error", "message": str(e)}
 
 
 def ajoute_intention(fidele_id, messe_id, type_intention, date):

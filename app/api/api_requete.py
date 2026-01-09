@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from func_requete import ajoute_fidele, ajoute_intention
+from module_fidele import ajoute_fidele, ajoute_intention, connecter_utilisateur
 import datetime
 
 api_bp = Blueprint(
@@ -31,6 +31,20 @@ def fidel():
         data="mauvais envoie du fichier json"
 
     )
+@api_bp.route('/login', methods=['POST'])
+def route_login():
+    # Récupération des données envoyées par ton formulaire HTML/JS
+    data = request.get_json()
+    email = data.get('gmail') # 'gmail' car c'est le nom dans ton JSON
+    password = data.get('password')
+
+    resultat = connecter_utilisateur(email, password)
+
+    if resultat["status"] == "success":
+        # Ici, tu peux enregistrer l'uid dans la session Flask
+        return jsonify(resultat), 200
+    else:
+        return jsonify(resultat), 401
 
 
 @api_bp.route('/intentions', methods=['POST'])
