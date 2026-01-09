@@ -21,7 +21,7 @@
             <p style="color:  rgb(5, 150, 240);">Merci de bien vouloir vous faire enregistrer !!!</p>
 
             <div class="form-content">
-                <form action="/vadile" method="POST">
+                <form action="page/vadile" method="POST">
                     {% for champ in champs %}
                     {% if champ.type == 'select' %}
                     {{ f.select_field(champ.name, champ.label, champ.options) }}
