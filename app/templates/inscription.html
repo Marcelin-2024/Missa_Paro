@@ -17,10 +17,11 @@
         <div style=" justify-items: center;
         background-color: white; width: 70%; padding-bottom: 30px; 
         border-radius: 15px; margin: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
-            <h2>Connection à votre espace</h2>
-            <p style="color: rgb(5, 150, 240);">Heureux de vous revoir</p>
-            <div class="form-content" style="margin-top: 10px;">
-                <form action="/Tableau_bords" method="POST">
+            <h2>Création de mon compte </h2>
+            <p style="color:  rgb(5, 150, 240);">Merci de bien vouloir vous faire enregistrer !!!</p>
+
+            <div class="form-content">
+                <form action="/Valide" method="POST">
                     {% for champ in champs %}
                     {% if champ.type == 'select' %}
                     {{ f.select_field(champ.name, champ.label, champ.options) }}
@@ -28,12 +29,12 @@
                     {{ f.input_field(champ.name, champ.label, champ.placeholder, champ.type, requit=champ.required) }}
                     {% endif %}
                     {% endfor %}
-                    {{ f.bouton_envoi("Se connecter") }}
+                    {{ f.bouton_envoi("S'inscrire") }}
                 </form>
                 <div style="display: flex; align-items: center; justify-content: center;">
-                    <p>Etres vous déjà inscrire ?</p>
-                    <a style="margin-left: 50px; color: rgb(194, 152, 0); text-decoration: none;"
-                    href="{{ url_for('connect_bp.inscription') }}">Inscription</a>
+                    <p>Avez vous un compte ?</p>
+                    <a style="margin-left: 50px; color: rgb(217, 164, 67); text-decoration: none;" 
+                    href="{{ url_for('connect_bp.login') }}">Connection</a>
                 </div>
             </div>
         </div>

@@ -1,5 +1,8 @@
-from flask import Flask, render_template
-from app.api.api_requete import api_bp
+import json
+import os
+
+from flask import Flask, render_template, current_app
+from app.api.api_fidele import api_bp
 from app.model.connecte import connecte_bp
 
 
@@ -10,5 +13,11 @@ def App_Web(config_name):
     app.register_blueprint(api_bp, url_prefix='/api')
     @app.route('/')
     def main():
-        return render_template("login.html")
+        json_path = os.path.join(current_app.root_path, 'static/json/login.json')
+
+        with open(json_path, 'r', encoding='utf-8') as f:
+            form_data = json.load(f)
+
+        # On envoie la liste des champs au template
+        return render_template('compte.html', champs=form_data['connection'])
     return app

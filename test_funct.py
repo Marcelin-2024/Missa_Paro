@@ -1,6 +1,5 @@
 import unittest
 from app import App_Web # Assurez-vous que c'est bien votre fonction de création d'app
-from module_fidele import ajoute_fidele_compl
 
 
 class TestURLs(unittest.TestCase):
@@ -30,7 +29,7 @@ class TestURLs(unittest.TestCase):
     def test_ma_page_specifique(self):
         """Un autre exemple de test"""
         # Si vous utilisez url_for, assurez-vous que les routes sont enregistrées
-        response = self.client.get('/page/connect')
+        response = self.client.get('/page/inscription')
         self.assertEqual(response.status_code, 200)
         pass
 
