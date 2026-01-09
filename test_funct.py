@@ -29,7 +29,7 @@ class TestURLs(unittest.TestCase):
     def test_ma_page_specifique(self):
         """Un autre exemple de test"""
         # Si vous utilisez url_for, assurez-vous que les routes sont enregistrées
-        response = self.client.get('/page/inscription')
+        response = self.client.get('/api/fidele')
         self.assertEqual(response.status_code, 200)
         pass
 

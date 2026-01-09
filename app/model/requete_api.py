@@ -3,7 +3,7 @@ import requests
 
 def requet_reponse():
     # L'URL du service (ici une API de test)
-    url = "https://e-messe.vercel.app/api/annonces"
+    url = "https://e-messe.vercel.app/api/paroisse"
 
     # On effectue la requête
     reponse = requests.get(url)
@@ -62,3 +62,5 @@ def requet_connec(gmail, password):
 
     except Exception as e:
         print(f"Erreur 1: {e}")
+
+requet_reponse()

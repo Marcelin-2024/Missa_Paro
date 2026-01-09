@@ -1,9 +1,9 @@
 import requests
 
 
-def requet_reponse():
+def requete_reponse():
     # L'URL du service (ici une API de test)
-    url = "https://e-messe.vercel.app/api/annonces"
+    url = "https://e-messe.vercel.app/api/login"
 
     # On effectue la requête
     reponse = requests.get(url)
@@ -19,7 +19,7 @@ def requet_reponse():
 
 
 
-def requet_envoie(nom, prenoms, diocese, paroisse, gmail, password, telephone):
+def requete_envoie(nom, prenoms, diocese, paroisse, gmail, password, telephone):
     # Données à envoyer sans le champ date
     data = {
         "nom": nom,
@@ -64,4 +64,4 @@ def requet_connec( gmail, password):
         print(f"Erreur 1: {e}")
 
 if __name__=='__main__':
-    requet_connec("marcoattes@gmail.com","jebfjzehezjhfzoef")
+    requete_reponse()
