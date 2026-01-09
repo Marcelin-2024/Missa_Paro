@@ -35,10 +35,10 @@ def fidel():
 def route_login():
     # Récupération des données envoyées par ton formulaire HTML/JS
     data = request.get_json()
-    email = data.get('gmail') # 'gmail' car c'est le nom dans ton JSON
+    gmail = data.get('email') # 'gmail' car c'est le nom dans ton JSON
     password = data.get('password')
 
-    resultat = connecter_utilisateur(email, password)
+    resultat = connecter_utilisateur(gmail, password)
 
     if resultat["status"] == "success":
         # Ici, tu peux enregistrer l'uid dans la session Flask

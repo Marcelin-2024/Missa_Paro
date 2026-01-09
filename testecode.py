@@ -61,7 +61,7 @@ def requet_connec( gmail, password):
         print(f"Réponse: {response.json()}")
 
     except Exception as e:
-        print(f"Erreur : {e}")
+        print(f"Erreur 1: {e}")
 
 if __name__=='__main__':
-    requet_envoie("marcoattes@gmail.com","jebfjzehezjhfzoef")
+    requet_connec("marcoattes@gmail.com","jebfjzehezjhfzoef")
