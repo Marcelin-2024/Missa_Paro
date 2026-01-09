@@ -53,7 +53,7 @@ def chargement():
 
 
 
-@connecte_bp.route('/Tableau_bords', methods=["POST"])
+@connecte_bp.route('/tableau_bords', methods=["POST"])
 def bords():
     gmail = request.form.get('gmail')
     password = request.form.get('password')
