@@ -39,7 +39,7 @@ def inscription():
     return render_template('inscription.html', champs=form_data['inscription_champs'])
 
 
-@connecte_bp.route('/Valide', methods=["POST"])
+@connecte_bp.route('/valide', methods=["POST"])
 def chargement():
     paroisse = request.form.get('paroisse')
     diocese = request.form.get('diocese')
