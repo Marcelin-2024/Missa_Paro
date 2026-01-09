@@ -1,9 +1,7 @@
 import datetime
-
 from flask import request, jsonify
-
 from app.api.api_fidele import api_bp
-from module_paroisse import ajoute_paroisse
+from module_fidele import ajoute_paroisse
 
 
 @api_bp.route('/paroisse', methods=['POST'])

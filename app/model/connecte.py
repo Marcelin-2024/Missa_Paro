@@ -1,13 +1,8 @@
 import json
-from enum import nonmember
-
 from flask import Blueprint, render_template, current_app, url_for, redirect, request
 import os
 
-from supabase_auth.helpers import parse_auth_otp_response
-
 from app.model.requete_api import requet_envoie, requet_connec
-from module_paroisse import ajoute_paroisse
 
 connecte_bp = Blueprint(
     'connect_bp',
