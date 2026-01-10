@@ -29,9 +29,34 @@ class TestURLs(unittest.TestCase):
     def test_ma_page_specifique(self):
         """Un autre exemple de test"""
         # Si vous utilisez url_for, assurez-vous que les routes sont enregistrées
-        response = self.client.get('/api/fidele')
+        response = self.client.get('/page/connection')
         self.assertEqual(response.status_code, 200)
         pass
+
+    def test_validation_inscription(self):
+        # 1. Préparation des données simulées (comme si on remplissait le formulaire)
+        data_inscription = {
+            'paroisse': 'Saint-Pierre',
+            'diocese': 'Abidjan',
+            'nom_complet': 'Jean Kouassi',
+            'poste': 'Fidèle',
+            'telephone': '0102030405',
+            'gmail': 'jean@gmail.com',
+            'password': 'password123'
+        }
+
+        # 2. Envoi de la requête POST vers l'URL avec le préfixe /page
+        response = self.client.post('/page/valide', data=data_inscription)
+
+        # 3. Vérifications (Assertions)
+
+        # On vérifie que le serveur redirige (302) et non une erreur 404 ou 500
+        self.assertEqual(response.status_code, 302)
+
+        # Optionnel : Vérifier que la redirection renvoie bien vers la page de connexion
+        self.assertIn('/page/connection', response.location)
+
+        print("✅ Test de validation d'inscription réussi (Redirection vers login)")
 
 
 

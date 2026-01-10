@@ -36,6 +36,9 @@ def init_firebase():
         firebase_admin.initialize_app(cred)
     return firestore.client()
 
+db = init_firebase()
+if db:
+    print("✅ Firebase connecté !")
 
 def creer_utilisateur(email, password):
     # ON INITIALISE ICI AUSSI pour être sûr que 'auth' fonctionne
