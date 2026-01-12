@@ -24,21 +24,43 @@ else:
 # --- Firebase ---
 def init_firebase():
     if not firebase_admin._apps:
-        service_account_env = os.environ.get("FIREBASE_SERVICE_ACCOUNT")
-        if service_account_env:
-            # Correction pour les sauts de ligne dans la clé privée Vercel
-            service_account_info = json.loads(service_account_env)
-            if "private_key" in service_account_info:
-                service_account_info["private_key"] = service_account_info["private_key"].replace("\\n", "\n")
-            cred = credentials.Certificate(service_account_info)
-        else:
-            cred = credentials.Certificate("serviceAccountKey.json")
-        firebase_admin.initialize_app(cred)
+        try:
+            service_account_env = os.environ.get("FIREBASE_SERVICE_ACCOUNT")
+
+            # Priorité 1 : Variable d'environnement (Render / .env local)
+            if service_account_env:
+                service_account_info = json.loads(service_account_env)
+                if "private_key" in service_account_info:
+                    service_account_info["private_key"] = service_account_info["private_key"].replace("\\n", "\n")
+                cred = credentials.Certificate(service_account_info)
+                firebase_admin.initialize_app(cred)
+
+            # Priorité 2 : Fichier physique (Uniquement si la variable est absente)
+            else:
+                cert_path = "serviceAccountKey.json"
+                if os.path.exists(cert_path):
+                    cred = credentials.Certificate(cert_path)
+                    firebase_admin.initialize_app(cred)
+                else:
+                    # Si on ne trouve rien, on affiche une erreur claire sans faire planter le serveur
+                    print("❌ Erreur critique : Aucun identifiant Firebase trouvé (Variable ou Fichier JSON)")
+                    return None
+
+        except Exception as e:
+            print(f"❌ Erreur lors de l'initialisation Firebase : {e}")
+            return None
+
     return firestore.client()
 
-db = init_firebase()
-if db:
-    print("✅ Firebase connecté !")
+
+# Initialisation sécurisée
+db = None
+try:
+    db = init_firebase()
+    if db:
+        print("✅ Firebase connecté !")
+except Exception:
+    pass
 
 def creer_utilisateur(email, password):
     # ON INITIALISE ICI AUSSI pour être sûr que 'auth' fonctionne
