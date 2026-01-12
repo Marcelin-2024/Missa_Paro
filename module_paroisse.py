@@ -13,7 +13,6 @@ def ajoute_paroisse(nom_complet, diocese,paroisse,gmail,poste , password, teleph
             "poste": poste,
             "telephone": telephone,
             "email": gmail,
-            "password": password
         }
         data = {
             "nom": nom_complet,
