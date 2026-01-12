@@ -3,7 +3,7 @@ import requests
 
 def requete_reponse():
     # L'URL du service (ici une API de test)
-    url = "https://e-messe.vercel.app/api/login"
+    url = "https://missa-paro.onrender.com/api/annonces"
 
     # On effectue la requête
     reponse = requests.get(url)
@@ -33,7 +33,7 @@ def requete_envoie(nom, prenoms, diocese, paroisse, gmail, password, telephone):
 
     try:
         response = requests.post(
-            "https://e-messe.vercel.app/api/fideles",
+            "https://missa-paro.onrender.com/api/fideles",
             json=data
         )
 
@@ -65,3 +65,4 @@ def requet_connec( gmail, password):
 
 if __name__=='__main__':
     requete_reponse()
+    requete_envoie()

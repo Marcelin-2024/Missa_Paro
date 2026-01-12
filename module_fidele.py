@@ -6,28 +6,27 @@ from firebase_admin import credentials, firestore, auth
 from dotenv import load_dotenv
 import requests
 
-
-# Trouve cette clé dans : Console Firebase > Paramètres du projet > Clé API Web
-FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
+# 1. On charge le .env en premier (pour le développement local)
 load_dotenv()
 
-# --- Supabase ---
+# 2. On récupère les variables après le chargement
+FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_ANON_KEY")
 
+# --- Vérification Supabase ---
 if url and key:
     supabase = create_client(url, key)
     print("✅ Supabase connecté !")
 else:
     print("⚠️ Attention: SUPABASE_URL ou KEY manquante")
 
-# --- Firebase ---
+# --- La fonction init_firebase est correcte ---
 def init_firebase():
     if not firebase_admin._apps:
         try:
             service_account_env = os.environ.get("FIREBASE_SERVICE_ACCOUNT")
 
-            # Priorité 1 : Variable d'environnement (Render / .env local)
             if service_account_env:
                 service_account_info = json.loads(service_account_env)
                 if "private_key" in service_account_info:
@@ -158,7 +157,6 @@ def ajoute_intention(fidele_id, messe_id, type_intention, date):
 def ajoute_fidele_compl(user, uid, data):
     try:
         db = init_firebase()
-
         # Test d'écriture dans Firestore
         doc_ref = db.collection(user).document(uid)
         doc_ref.set(data)
