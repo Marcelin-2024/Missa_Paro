@@ -43,7 +43,7 @@ def chargement():
     poste = request.form.get('poste')
     telephone = request.form.get('telephone')
     gmail = request.form.get('gmail')
-    password = request.form.get('password')
+    password = request.form.get('motdepasse')
     date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
     ajoute_paroisse(nom_complet,diocese,paroisse,gmail,poste,password,telephone, date)
     return redirect(url_for('connect_bp.login'))
@@ -53,6 +53,6 @@ def chargement():
 @connecte_bp.route('/tableau_bords', methods=["POST"])
 def bords():
     gmail = request.form.get('gmail')
-    password = request.form.get('password')
+    password = request.form.get('motdepasse')
     connecter_utilisateur(gmail, password)
     return redirect(url_for('connect_bp.login'))
