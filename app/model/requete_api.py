@@ -1,23 +1,6 @@
 import requests
 
 
-def requet_reponse():
-    # L'URL du service (ici une API de test)
-    url = "https://e-messe.vercel.app/api/paroisse"
-
-    # On effectue la requête
-    reponse = requests.get(url)
-
-    # On vérifie si la requête a réussi
-    if reponse.status_code == 200:
-        # Si le serveur renvoie du JSON, on le transforme en dictionnaire Python
-        donnees = reponse.json()
-        print("Titre du post :", donnees['data'])
-    else:
-        print(f"Erreur : {reponse.status_code}")
-
-
-
 
 def requet_envoie(paroisse, diocese, nom_complet, poste, telephone,gmail, password):
     # Données à envoyer sans le champ date
@@ -33,7 +16,7 @@ def requet_envoie(paroisse, diocese, nom_complet, poste, telephone,gmail, passwo
 
     try:
         response = requests.post(
-            "https://e-messe.vercel.app/api/paroisse",
+            "https://missa-paro.onrender.com/api/paroisse",
             json=data
         )
 
@@ -53,7 +36,7 @@ def requet_connec(gmail, password):
 
     try:
         response = requests.post(
-            "https://e-messe.vercel.app/api/login",
+            "https://missa-paro.onrender.com/api/login",
             json=data
         )
 
@@ -62,5 +45,3 @@ def requet_connec(gmail, password):
 
     except Exception as e:
         print(f"Erreur 1: {e}")
-
-requet_reponse()
