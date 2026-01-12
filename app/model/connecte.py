@@ -1,8 +1,9 @@
+import datetime
 import json
 from flask import Blueprint, render_template, current_app, url_for, redirect, request
 import os
-
-from app.model.requete_api import requet_envoie, requet_connec
+from module_fidele import connecter_utilisateur
+from module_paroisse import ajoute_paroisse
 
 connecte_bp = Blueprint(
     'connect_bp',
@@ -43,7 +44,8 @@ def chargement():
     telephone = request.form.get('telephone')
     gmail = request.form.get('gmail')
     password = request.form.get('password')
-    requet_envoie(paroisse,diocese,nom_complet,poste,telephone,gmail,password)
+    date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
+    ajoute_paroisse(nom_complet,diocese,paroisse,gmail,poste,password,telephone, date)
     return redirect(url_for('connect_bp.login'))
 
 
@@ -52,5 +54,5 @@ def chargement():
 def bords():
     gmail = request.form.get('gmail')
     password = request.form.get('password')
-    requet_connec(gmail,password)
+    connecter_utilisateur(gmail, password)
     return redirect(url_for('connect_bp.login'))
