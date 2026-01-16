@@ -39,7 +39,7 @@ def chargement():
     return redirect(url_for('main'))
 
 
-@connecte_bp.route('/verification')
+@connecte_bp.route('/verification', methods=["POST"])
 def verification():
     gmail = request.form.get('gmail')
     password = request.form.get('motdepasse')
