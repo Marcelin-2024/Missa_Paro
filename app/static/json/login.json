@@ -1,19 +1,20 @@
 {
   "inscription_champs": [
     {
-      "name": "paroisse",
-      "label": "Nom de la paroisse",
-      "placeholder": "Sainte Rita",
-      "type": "text",
-      "required": true
-    },
-    {
       "name": "diocese",
       "label": "Nom du Diocèse",
       "placeholder": "Abidjan, Yopougon",
       "type": "text",
       "required": true
     },
+    {
+      "name": "paroisse",
+      "label": "Nom de la paroisse",
+      "placeholder": "Sainte Rita",
+      "type": "text",
+      "required": true
+    },
+
     {
       "name": "nom_complet",
       "label": "Nom complet",

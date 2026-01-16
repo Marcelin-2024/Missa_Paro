@@ -126,6 +126,7 @@ def connecter_utilisateur(email, password):
             print(f"✅ Connexion réussie : {data['localId']}")
             return {
                 "status": "success",
+                "email": "email@exemple.com",
                 "uid": data['localId'],
                 "idToken": data['idToken']
             }

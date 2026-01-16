@@ -37,9 +37,7 @@ def route_login():
     data = request.get_json()
     gmail = data.get('email') # 'gmail' car c'est le nom dans ton JSON
     password = data.get('password')
-
     resultat = connecter_utilisateur(gmail, password)
-
     if resultat["status"] == "success":
         # Ici, tu peux enregistrer l'uid dans la session Flask
         return jsonify(resultat), 200

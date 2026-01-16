@@ -11,16 +11,6 @@ connecte_bp = Blueprint(
     template_folder='templates',
     static_folder='static'
 )
-@connecte_bp.route('/connection')
-def login():
-    # Chemin vers le fichier JSON
-    json_path = os.path.join(current_app.root_path, 'static/json/login.json')
-
-    with open(json_path, 'r', encoding='utf-8') as f:
-        form_data = json.load(f)
-
-    # On envoie la liste des champs au template
-    return render_template('compte.html', champs=form_data['connection'])
 
 
 @connecte_bp.route('/inscription')
@@ -46,13 +36,17 @@ def chargement():
     password = request.form.get('motdepasse')
     date = datetime.datetime.now().strftime("%d %m %Y %H:%M")
     ajoute_paroisse(nom_complet,diocese,paroisse,gmail,poste,password,telephone, date)
-    return redirect(url_for('connect_bp.login'))
+    return redirect(url_for('main'))
 
 
-
-@connecte_bp.route('/tableau_bords', methods=["POST"])
-def bords():
+@connecte_bp.route('/verification')
+def verification():
     gmail = request.form.get('gmail')
     password = request.form.get('motdepasse')
-    connecter_utilisateur(gmail, password)
-    return redirect(url_for('connect_bp.login'))
+    reponse = connecter_utilisateur(gmail, password)
+    return render_template('verificetion.html', reponse=reponse['uid'])
+
+
+@connecte_bp.route('/tableau_bords')
+def bords():
+    return render_template('tableau_bords.html')
