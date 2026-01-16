@@ -43,8 +43,8 @@ def chargement():
 def verification():
     gmail = request.form.get('gmail')
     password = request.form.get('motdepasse')
-    reponse = connecter_utilisateur(gmail, password)
-    return render_template('verificetion.html', reponse=reponse['uid'])
+    connecter_utilisateur(gmail, password)
+    return render_template('verificetion.html')
 
 
 @connecte_bp.route('/tableau_bords')
