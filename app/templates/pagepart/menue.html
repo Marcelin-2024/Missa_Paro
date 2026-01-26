@@ -1,0 +1,73 @@
+<nav id="sidebar-nav" style="margin-top:5px;">
+    <a id="reload-btn" class="nav-link active">📊 Tableau de bord</a>
+    <a id="reload-btn1" class="nav-link">📄 Intentions</a>
+    <a id="reload-btn2" class="nav-link">⛪ Messes</a>
+    <a id="reload-btn3" class="nav-link">📢 Annonces</a>
+</nav>
+<script>
+    document.getElementById("reload-btn").addEventListener("click", function () {
+        fetch("/refresh/refresh_firt")
+            .then(response => response.text())  // on récupère du HTML
+            .then(html => {
+                document.getElementById("main-content").innerHTML = html;
+            })
+            .catch(error => console.error("Erreur:", error));
+    });
+    document.getElementById("reload-btn1").addEventListener("click", function () {
+        fetch("/refresh/refresh_second")
+            .then(response => response.text())  // on récupère du HTML
+            .then(html => {
+                document.getElementById("main-content").innerHTML = html;
+            })
+            .catch(error => console.error("Erreur:", error));
+    });
+    document.getElementById("reload-btn2").addEventListener("click", function () {
+        fetch("/refresh/refresh_third")
+            .then(response => response.text())  // on récupère du HTML
+            .then(html => {
+                document.getElementById("main-content").innerHTML = html;
+            })
+            .catch(error => console.error("Erreur:", error));
+    });
+    document.getElementById("reload-btn3").addEventListener("click", function () {
+        fetch("/refresh/refresh_four")
+            .then(response => response.text())  // on récupère du HTML
+            .then(html => {
+                document.getElementById("main-content").innerHTML = html;
+            })
+            .catch(error => console.error("Erreur:", error));
+    });
+
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                // 1. RETIRER la classe 'active' de tous les boutons
+                navLinks.forEach(btn => btn.classList.remove('active'));
+
+                // 2. AJOUTER la classe 'active' au bouton cliqué
+                this.classList.add('active');
+
+                // 3. LOGIQUE AJAX (Déterminer l'URL selon l'ID)
+                let endpoint = "";
+                if (this.id === "reload-btn") endpoint = "/refresh/refresh_firt";
+                else if (this.id === "reload-btn1") endpoint = "/refresh/refresh_second";
+                else if (this.id === "reload-btn2") endpoint = "/refresh/refresh_third";
+                else if (this.id === "reload-btn3") endpoint = "/refresh/refresh_four";
+
+                if (endpoint) {
+                    fetch(endpoint)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById("main-content").innerHTML = html;
+                        })
+                        .catch(err => console.error("Erreur:", err));
+                }
+            });
+        });
+    });
+</script>

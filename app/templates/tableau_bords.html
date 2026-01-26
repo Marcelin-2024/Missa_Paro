@@ -6,256 +6,64 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='image/logomissaparo.png') }}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Missa Paro</title>
-</head>
-<body>
     <style>
-        * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-}
+    /* Style par défaut pour tous les liens du menu */
+    .nav-link {
+        display: block;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
 
-body {
-    background: #eef6fb;
-}
+    /* Style spécifique quand le bouton est ACTIF */
+    .nav-link.active {
+        background: #e3f2fd !important;
+        color: #1e88e5 !important;
+        font-weight: 600;
+    }
+</style>
+</head>
 
-.app {
-    display: flex;
-    height: 100vh;
-}
+<body style="margin:0;padding:0;font-family:'Segoe UI',sans-serif;background:#eef6fb;">
+    <!-- HEADER GLOBAL -->
+    <header style="display: flex; font-family:'Segoe UI',sans-serif;background:#eef6fb; width: 100%; height: 18vh;">
+        {% include 'pagepart/header.html' %}
+    </header>
 
-/* SIDEBAR */
-.sidebar {
-    width: 230px;
-    background: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.logo h3 {
-    color: #1e88e5;
-}
-
-nav a {
-    display: block;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-nav a.active {
-    background: #e3f2fd;
-    color: #1e88e5;
-}
-
-.bottom a {
-    margin-bottom: 10px;
-}
-
-.logout {
-    background: #ff4d4d;
-    border: none;
-    padding: 10px;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-/* CONTENT */
-.content {
-    flex: 1;
-    padding: 25px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.btn {
-    background: #f4b400;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    color: white;
-}
-
-/* STATS */
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-}
-
-.box {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.total {
-    color: #1e88e5;
-}
-
-/* CHART */
-.chart {
-    display: flex;
-    gap: 15px;
-    align-items: flex-end;
-    height: 180px;
-    margin-top: 15px;
-}
-
-.chart div {
-    flex: 1;
-    background: #42a5f5;
-    color: white;
-    text-align: center;
-    border-radius: 6px 6px 0 0;
-}
-
-/* TABLE */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background: #f5f5f5;
-}
-
-.more {
-    display: block;
-    margin-top: 10px;
-    color: #1e88e5;
-}
-    </style>
-<div class="app">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="logo">
-            <h3>Missa Paro</h3>
-            <small>Paroisse administration</small>
-        </div>
-
-        <nav>
-            <a class="active">📊 Tableau de bord</a>
-            <a>📄 Intentions</a>
-            <a>⛪ Messes</a>
-            <a>📢 Annonces</a>
-            <a>💰 Finances</a>
-        </nav>
-
-        <div class="bottom">
-            <a>⚙️ Paramètre</a>
-            <button class="logout">⏻ Déconnecter</button>
-        </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="content">
-
-        <!-- HEADER -->
-        <header class="header">
-            <h2>Tableau de bord</h2>
-            <button class="btn">Ajouter un message</button>
-        </header>
-
-        <!-- STATS -->
-        <section class="stats">
-            <div class="card">
-                <p>Intentions en attentes</p>
-                <h3>13</h3>
+    <!-- APP -->
+    <div style="display:flex;height:90vh;background:#eef6fb;">
+        <!-- SIDEBAR -->
+        <aside style="width:250px;background:#eef6fb; padding:10px;display:flex;
+            flex-direction:column;justify-content:space-between;">
+            <div style="background:white; padding: 5px;border-radius:10px;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.2);">
+                {% include 'pagepart/menue.html' %}
+                
             </div>
-            <div class="card">
-                <p>Intentions validées</p>
-                <h3>88</h3>
+            <div style="background:white; padding: 10px; border-radius:8px;
+            box-shadow:0px 2px 10px rgba(0, 0, 0, 0.2);">
+                <button style="width:100%;padding:10px;border:none;border-radius:6px;cursor:pointer;">
+                    ⚙️ Paramètres
+                </button>
+
+                <button style="margin-top:10px;width:100%;background:#ff4d4d;border:none;
+                    padding:10px;color:white;border-radius:6px;cursor:pointer;
+                    box-shadow:0px 2px 10px rgba(0, 0, 0, 0.2);">
+                    ⏻ Déconnecter
+                </button>
             </div>
-            <div class="card">
-                <p>Messes du jour</p>
-                <h3>2</h3>
-            </div>
-            <div class="card">
-                <p>Annonces publiées</p>
-                <h3>5</h3>
-            </div>
-        </section>
+        </aside>
 
-        <!-- GRAPH + TABLE -->
-        <section class="grid">
-
-            <div class="box">
-                <h4>Intentions de la semaine</h4>
-                <h2 class="total">101</h2>
-
-                <div class="chart">
-                    <div style="height:40%">Lundi</div>
-                    <div style="height:55%">Mardi</div>
-                    <div style="height:80%">Mercredi</div>
-                    <div style="height:25%">Jeudi</div>
-                    <div style="height:65%">Vendredi</div>
-                </div>
-            </div>
-
-            <div class="box">
-                <h4>Quelques intentions</h4>
-
-                <table>
-                    <tr>
-                        <th>Date</th>
-                        <th>Horaire</th>
-                        <th>Célébrant</th>
-                    </tr>
-                    <tr>
-                        <td>12/12/2025</td>
-                        <td>10H-12H</td>
-                        <td>Henri du bois</td>
-                    </tr>
-                    <tr>
-                        <td>12/12/2025</td>
-                        <td>10H-12H</td>
-                        <td>Henri du bois</td>
-                    </tr>
-                    <tr>
-                        <td>12/12/2025</td>
-                        <td>10H-12H</td>
-                        <td>Henri du bois</td>
-                    </tr>
-                </table>
-
-                <a class="more">Voir plus</a>
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
+        <!-- MAIN -->
+        <main id="main-content" style="flex:1; padding:15px; overflow:auto; background: white; margin: 10px;
+             border-radius: 15px;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.2);">
+            {% include 'pagepart/contenue1.html' %}
+        </main>
+    </div>
+    </div>
 </body>
 </html>

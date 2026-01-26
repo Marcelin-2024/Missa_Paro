@@ -1,6 +1,6 @@
 import datetime
 import json
-from flask import Blueprint, render_template, current_app, url_for, redirect, request
+from flask import Blueprint, render_template, current_app, url_for, redirect, request, session
 import os
 from module_fidele import connecter_utilisateur
 from module_paroisse import ajoute_paroisse
@@ -11,7 +11,6 @@ connecte_bp = Blueprint(
     template_folder='templates',
     static_folder='static'
 )
-
 
 @connecte_bp.route('/inscription')
 def inscription():
@@ -44,6 +43,7 @@ def verification():
     gmail = request.form.get('gmail')
     password = request.form.get('motdepasse')
     reponse = connecter_utilisateur(gmail, password)
+    session["uid"] = reponse
     return render_template('verification.html', reponse=reponse['uid'])
 
 
