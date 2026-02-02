@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='image/logomissaparo.png') }}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missa Paro - Annonces</title>
+</head>
+
+<body>
+    {% import "pagepart/systeme.html" as f %}
+    <div style="background-color: #f8faff; padding: 40px; display: flex; justify-content: center;">
+
+        <div
+            style="background-color: #ffffff; width: 450px; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid #f0f0f0;">
+
+            <div
+                style="padding: 20px 25px; background: linear-gradient(90deg, #fff9e6 0%, #f0f4ff 100%); display: flex; align-items: center; ">
+                <h2 style="margin: 0; font-size: 20px; color: #1a2b4b; font-weight: 600;">Nouvelle Annonce de Paroisse
+                </h2>
+            </div>
+
+            <form action="/page/ajoute_annonce" method="POST" enctype="multipart/form-data" style="padding: 30px 25px;">
+
+                <div style="margin-bottom: 20px;">
+                    {% for champ in champs %}
+                    {% if champ.type == 'select' %}
+                    {{ f.select_field(champ.name, champ.label, champ.options) }}
+                    {% else %}
+                    {{ f.input_field(champ.name, champ.label, champ.placeholder, champ.type, requit=champ.required,
+                    width=champ.width if champ.width else none) }} {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <label
+                        style="display: block; margin-bottom: 10px; color: #334155; font-size: 16px; font-weight: 500;">
+                        Date de l'annonce
+                    </label>
+                    <div style="position: relative;">
+                        <input type="date" name="date_annonce" required
+                            style="width: 100%; padding: 14px 15px; border: 1.5px solid #0596F0; border-radius: 12px; font-size: 16px; color: #64748b; outline: none; box-sizing: border-box; cursor: pointer; background-color: #ffffff;"
+                            onfocus="this.showPicker()">
+                    </div>
+                </div>
+                <div style="margin-bottom: 25px;">
+                    <label
+                        style="display: block; margin-bottom: 10px; color: #334155; font-size: 16px; font-weight: 500;">
+                        Image de l'annonce (Optionnel)
+                    </label>
+                    <div style="position: relative;">
+                        <input type="file" name="image_annonce" accept="image/*"
+                            style="width: 100%; padding: 12px 15px; border: 1.5px dashed #0596F0; border-radius: 12px; font-size: 14px; 
+                            color: #64748b; outline: none; box-sizing: border-box; cursor: pointer; background-color: #f0f9ff;"
+                            onchange="previewImage(event)">
+                    </div>
+                    <small style="display: block; margin-top: 5px; color: #94a3b8; font-size: 12px;">
+                        Formats acceptés : JPG, PNG (Max 2Mo)
+                    </small>
+                </div>
+                <img id="aperçu" src="#" alt="Aperçu de l'image"
+                    style="display:none; margin-top: 10px; max-width: 100%; border-radius: 8px; border: 1px solid #ddd;">
+
+                <script>
+                    function previewImage(event) {
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                            const output = document.getElementById('aperçu');
+                            output.src = reader.result;
+                            output.style.display = 'block';
+                        };
+                        reader.readAsDataURL(event.target.files[0]);
+                    }
+                </script>
+
+                <div style="margin-bottom: 25px;">
+                    <label
+                        style="display: block; margin-bottom: 10px; color: #334155; font-size: 16px; font-weight: 500;">
+                        Détails de l'annonce
+                    </label>
+                    <textarea name="contenu_annonce" required rows="4" placeholder="Écrivez le message ici..."
+                        style="width: 100%; padding: 14px 15px; border: 1.5px solid #0596F0; border-radius: 12px; font-size: 16px; color: #64748b; outline: none; box-sizing: border-box; font-family: sans-serif; resize: vertical;"></textarea>
+                </div>
+
+                {{ f.bouton_envoi("Publier l'annonce") }}
+
+            </form>
+
+        </div>
+    </div>
+</body>
+
+</html>

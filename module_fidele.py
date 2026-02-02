@@ -75,15 +75,15 @@ def creer_utilisateur(email, password):
 
 def ajoute_fidele(nom, diocese,paroisse,gmail, password, telephone, date):
     # 1. Création du compte Auth (initialise Firebase au passage)
-    uid = creer_utilisateur(gmail, password)
+    uid = creer_utilisateur(gmail, password)  # Récupère l'ID de Firebase
 
     if uid:
-        data1 = {
+        data = {
+            "id": uid,  # IMPORTANT : On force l'ID dans Supabase pour qu'il soit identique à Firebase
             "nom": nom,
             "email": gmail,
             "telephone": telephone,
-            "Diocèse" : diocese,
-            "paroisse" : paroisse,
+            "created_at": date,
         }
         data = {
             "nom": nom,
@@ -93,44 +93,12 @@ def ajoute_fidele(nom, diocese,paroisse,gmail, password, telephone, date):
         }
 
         # 2. Ajout dans Firestore
-        ajoute_fidele_compl('fidele', uid, data1)
+        post_fidele_compl('fidele', uid, data1)
 
         # 3. Ajout dans Supabase
         if url and key:
             try:
                 supabase.table("fidele").insert(data).execute()
-                print("✅ Ajouté à Supabase")
-            except Exception as e:
-                print(f"❌ Erreur Supabase : {e}")
-
-
-def ajoute_paroisse(nom_complet, diocese,paroisse,gmail,poste , password, telephone, date):
-    # 1. Création du compte Auth (initialise Firebase au passage)
-    uid = creer_utilisateur(gmail, password)
-
-    if uid:
-        data1 = {
-            "paroisse": paroisse,
-            "diocese": diocese,
-            "nom_complet": nom_complet,
-            "poste": poste,
-            "telephone": telephone,
-            "email": gmail,
-        }
-        data = {
-            "nom": nom_complet,
-            "email": gmail,
-            "telephone": telephone,
-            "created_at": date,
-        }
-
-        # 2. Ajout dans Firestore
-        ajoute_fidele_compl('paroisse', uid, data1)
-
-        # 3. Ajout dans Supabase
-        if url and key:
-            try:
-                supabase.table("paroisse").insert(data).execute()
                 print("✅ Ajouté à Supabase")
             except Exception as e:
                 print(f"❌ Erreur Supabase : {e}")
@@ -173,21 +141,10 @@ def connecter_utilisateur(email, password):
         return {"status": "error", "message": str(e)}
 
 
-def ajoute_intention(fidele_id, messe_id, type_intention, date):
-    # Ajouter une présence test
-    data = {
-        "fidele_id": fidele_id,
-        "messe_id": messe_id,
-        "type_intention": type_intention,
-        "statut": "en attente",
-        "created_at": date,
-    }
-
-    response = supabase.table("intention_messe").insert(data).execute()
-    print(response)
 
 
-def ajoute_fidele_compl(user, uid, data):
+
+def post_fidele_compl(user, uid, data):
     try:
         db = init_firebase()
         # Test d'écriture dans Firestore
@@ -197,3 +154,118 @@ def ajoute_fidele_compl(user, uid, data):
         print("✅ Document écrit avec succès dans Firebase !")
     except Exception as e:
         print(f"❌ Erreur : {e}")
+
+
+
+# --- FONCTIONS DE COMMUNICATION ---
+
+# 1. Récupérer les infos d'une paroisse (Firestore ou Supabase selon ton choix)
+def get_paroisse_db(paroisse_id):
+    # Exemple avec Supabase
+    try:
+        response = supabase.table("paroisses").select("*").eq("id", paroisse_id).single().execute()
+        return response.data
+    except Exception as e:
+        print(f"❌ Erreur get_paroisse : {e}")
+        return None
+
+# 2. Récupérer les messes (Supabase)
+def get_messes_db():
+    try:
+        # On peut filtrer pour ne prendre que les messes futures
+        response = supabase.table("messes").select("*").order("date").execute()
+        return response.data
+    except Exception as e:
+        print(f"❌ Erreur get_messes : {e}")
+        return []
+
+# 3. Récupérer les annonces (Supabase)
+def get_annonces_db():
+    try:
+        response = supabase.table("annonces").select("*").order("created_at", desc=True).execute()
+        return response.data
+    except Exception as e:
+        print(f"❌ Erreur get_annonces : {e}")
+        return []
+
+def post_intention(fidele_id, messe_id, objet_intention,detail_intention, date):
+    # Ajouter une présence test
+    data = {
+        "fidele_id": fidele_id,
+        "messe_id": messe_id,
+        "objet_intention": objet_intention,
+        "detail_intention":detail_intention,
+        "statut": "en attente",
+        "created_at": date,
+    }
+
+    response = supabase.table("intention_messe").insert(data).execute()
+    return response.data
+
+# 4. Modifier une intention (Supabase)
+def update_intention_db(intention_id, nouveau_type_intention,nouveau_objet_intention):
+    try:
+        response = supabase.table("intention_messe").update({
+            "type_intention": nouveau_type_intention,
+            "objet_intention": nouveau_objet_intention
+        }).eq("id", intention_id).execute()
+        return response.data
+    except Exception as e:
+        print(f"❌ Erreur update_intention : {e}")
+        return False
+
+# 5. Supprimer une intention (Supabase)
+def delete_intention_db(intention_id):
+    try:
+        response = supabase.table("intention_messe").delete().eq("id", intention_id).execute()
+        return response.data
+    except Exception as e:
+        print(f"❌ Erreur delete_intention : {e}")
+        return False
+
+# 6. Récupérer les intentions d'un fidèle spécifique (Supabase)
+def get_mes_intentions_db(fidele_id):
+    try:
+        response = supabase.table("intention_messe").select("*").eq("fidele_id", fidele_id).execute()
+        return response.data
+    except Exception as e:
+        print(f"❌ Erreur get_mes_intentions : {e}")
+        return []
+
+# 7. Récupérer les intentions validées pour l'affichage public (Supabase)
+def get_intentions_validees_db():
+    try:
+        response = supabase.table("intention_messe").select("*").eq("statut", "validé").execute()
+        return response.data
+    except Exception as e:
+        print(f"❌ Erreur get_intentions_validees : {e}")
+        return []
+
+# 8. Ajouter un Avis/Feedback (Firestore - plus simple pour les logs textuels)
+def ajoute_avis_db(uid, note, commentaire):
+    try:
+        db = init_firebase()
+        data = {
+            "uid": uid,
+            "note": note,
+            "commentaire": commentaire,
+            "timestamp": datetime.now().isoformat()
+        }
+        db.collection("avis").add(data)
+        print("✅ Avis enregistré dans Firestore")
+        return True
+    except Exception as e:
+        print(f"❌ Erreur avis : {e}")
+        return False
+
+# 9. Enregistrer un Token Push (Firestore)
+def save_push_token(uid, token):
+    try:
+        db = init_firebase()
+        db.collection("fidele").document(uid).update({
+            "push_token": token
+        })
+        return True
+    except Exception as e:
+        print(f"❌ Erreur token push : {e}")
+        return False

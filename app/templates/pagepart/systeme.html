@@ -1,15 +1,15 @@
-{% macro input_field(name, label, placeholder='', type='text', value='', requit='') %}
+{% macro input_field(name, label, placeholder='', type='text', value='', requit='', width = none) %}
 <div class="form-group" style="margin-bottom: 20px; text-align: left;">
     <label for="{{ name }}" style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px;">
         {{ label }}
     </label>
     <input type="{{ type }}"
-           name="{{ name }}"
-           id="{{ name }}"
-           placeholder="{{ placeholder }}"
-           value="{{ value }}"
-           {% if requit %}required{% endif %}
-           style="width: 400px; padding: 12px; border: 1.5px solid #0596F0; border-radius: 8px; outline: none;">
+       name="{{ name }}"
+       id="{{ name }}"
+       placeholder="{{ placeholder }}"
+       value="{{ value }}"
+       {% if requit %} required{% endif %}
+       style="width: {{ width|default('400px', true) }}; padding: 12px; border: 1.5px solid #0596F0; border-radius: 8px; outline: none;">
 </div>
 {% endmacro %}
 

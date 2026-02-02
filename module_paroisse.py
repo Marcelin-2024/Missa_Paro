@@ -1,4 +1,4 @@
-from module_fidele import creer_utilisateur, ajoute_fidele_compl, url, key, supabase
+from module_fidele import creer_utilisateur, post_fidele_compl, url, key, supabase
 
 
 def ajoute_paroisse(nom_complet, diocese,paroisse,gmail,poste , password, telephone, date):
@@ -7,6 +7,7 @@ def ajoute_paroisse(nom_complet, diocese,paroisse,gmail,poste , password, teleph
 
     if uid:
         data1 = {
+            "id": uid,  # IMPORTANT : On force l'ID dans Supabase pour qu'il soit identique à Firebase
             "paroisse": paroisse,
             "diocese": diocese,
             "nom_complet": nom_complet,
@@ -22,7 +23,7 @@ def ajoute_paroisse(nom_complet, diocese,paroisse,gmail,poste , password, teleph
         }
 
         # 2. Ajout dans Firestore
-        ajoute_fidele_compl('paroisse', uid, data1)
+        post_fidele_compl('paroisse', uid, data1)
 
         # 3. Ajout dans Supabase
         if url and key:

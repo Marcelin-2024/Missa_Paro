@@ -50,3 +50,21 @@ def verification():
 @connecte_bp.route('/tableau_bords')
 def bords():
     return render_template('tableau_bords.html')
+
+
+@connecte_bp.route('/messes')
+def messes():
+    json_path = os.path.join(current_app.root_path, 'static/json/login.json')
+
+    with open(json_path, 'r', encoding='utf-8') as f:
+        form_data = json.load(f)
+    return render_template('ajoute_messe.html',champs=form_data['messes'])
+
+
+@connecte_bp.route('/annonces')
+def ajoute_annonce():
+    json_path = os.path.join(current_app.root_path, 'static/json/login.json')
+
+    with open(json_path, 'r', encoding='utf-8') as f:
+        form_data = json.load(f)
+    return render_template('annonces.html',champs=form_data['annonces'])

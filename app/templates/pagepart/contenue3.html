@@ -1,14 +1,16 @@
 <header style="display:flex;justify-content:space-between;align-items:center;">
     <h2 style="margin:0;">Gestion des messes</h2>
-    <button style="background:#c69200;border:none;
-    padding:10px 16px;border-radius:8px;color:white;cursor:pointer;">
+    <a href="{{ url_for('connect_bp.messes') }}" 
+    style="background:#c69200;border:none; padding:10px 16px;
+    border-radius:8px;color:white;
+    cursor:pointer;text-decoration:none;">
         Ajouter un message
-    </button>
+    </a>
 </header>
 <div style="background-color: white; padding: 50px; display: flex; justify-content: center; font-family: sans-serif;">
 
     <div
-        style="background-color:  #f0f7ff; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 900px; padding: 25px; position: relative; min-height: 450px;">
+        style="background-color:  #f0f7ff; border-radius: 15px;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.2); width: 100%; padding: 25px; position: relative;">
 
         <table style="width: 100%; border-collapse: collapse; text-align: left;">
             <thead>
@@ -33,7 +35,7 @@
                             venir</span>
                     </td>
                     <td style="padding: 20px 15px; border-bottom: 1px solid #f5f5f5; cursor: pointer; font-size: 20px;">
-                        📋👁️</td>
+                        📋</td>
                 </tr>
                 <tr>
                     <td style="padding: 20px 15px; border-bottom: 1px solid #f5f5f5; color: #666;">14 Décembre 2025</td>
@@ -44,7 +46,7 @@
                             style="background-color: #fffde7; color: #afb42b; padding: 6px 15px; border-radius: 8px; font-weight: bold; font-size: 14px;">Passée</span>
                     </td>
                     <td style="padding: 20px 15px; border-bottom: 1px solid #f5f5f5; cursor: pointer; font-size: 20px;">
-                        📋👁️</td>
+                        📋</td>
                 </tr>
                 <tr>
                     <td style="padding: 20px 15px; border-bottom: 1px solid #f5f5f5; color: #666;">14 Décembre 2025</td>
@@ -55,7 +57,7 @@
                             style="background-color: #ffebee; color: #e53935; padding: 6px 15px; border-radius: 8px; font-weight: bold; font-size: 14px;">Annulée</span>
                     </td>
                     <td style="padding: 20px 15px; border-bottom: 1px solid #f5f5f5; cursor: pointer; font-size: 20px;">
-                        📋👁️</td>
+                        📋</td>
                 </tr>
             </tbody>
         </table>

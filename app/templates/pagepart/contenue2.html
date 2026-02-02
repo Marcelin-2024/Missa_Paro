@@ -1,9 +1,11 @@
 <header style="display:flex;justify-content:space-between;align-items:center;">
     <h2 style="margin:0;">Gestion des intentions</h2>
-    <button style="background:#c69200;border:none;
-    padding:10px 16px;border-radius:8px;color:white;cursor:pointer;">
+    <a href="{{ url_for('connect_bp.messes') }}" 
+    style="background:#c69200;border:none; padding:10px 16px;
+    border-radius:8px;color:white;
+    cursor:pointer;text-decoration:none;">
         Ajouter un message
-    </button>
+    </a>
 
 </header>
 <div style="background-color: white; padding: 50px; display: flex; justify-content: center; font-family: sans-serif;">
