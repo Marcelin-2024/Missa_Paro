@@ -78,7 +78,7 @@ def ajoute_fidele(nom, diocese,paroisse,gmail, password, telephone, date):
     uid = creer_utilisateur(gmail, password)  # Récupère l'ID de Firebase
 
     if uid:
-        data = {
+        data1 = {
             "id": uid,  # IMPORTANT : On force l'ID dans Supabase pour qu'il soit identique à Firebase
             "nom": nom,
             "email": gmail,
